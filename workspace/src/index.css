@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f1f4ef;
+  --color-paper-2: #e6ece3;
+  --color-ink: #101f18;
+  --color-ink-2: #16281f;
+  --color-ink-3: #0b1611;
+  --color-pine: #1f7a4d;
+  --color-pine-deep: #14532f;
+  --color-leaf: #3ecf8e;
+  --color-amber: #f2a33c;
+  --color-coral: #e4572e;
+  --color-mist: #5d7065;
+  --color-line: #d3ddd2;
+
+  --font-display: "Unbounded", system-ui, sans-serif;
+  --font-body: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-leaf);
+  color: var(--color-ink-3);
+}
+
+/* ---------- fondos ambiente ---------- */
+.dotgrid {
+  background-image: radial-gradient(rgba(16, 31, 24, 0.16) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.grid-dark {
+  background-image:
+    linear-gradient(rgba(62, 207, 142, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(62, 207, 142, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+.noise-soft::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: radial-gradient(rgba(62, 207, 142, 0.09) 1px, transparent 1.4px);
+  background-size: 5px 5px;
+}
+
+/* ---------- botones "hard shadow" ---------- */
+.hard {
+  box-shadow: 5px 5px 0 0 var(--hs, var(--color-ink));
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+.hard:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 0 var(--hs, var(--color-ink));
+}
+.hard:active {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 0 var(--hs, var(--color-ink));
+}
+.hs-leaf { --hs: var(--color-leaf); }
+.hs-ink { --hs: var(--color-ink); }
+.hs-pine { --hs: var(--color-pine-deep); }
+
+/* ---------- reveal on scroll ---------- */
+.rv {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.rv-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- esquinas tipo plano ---------- */
+.tick {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border: 0 solid var(--color-pine);
+  opacity: 0.75;
+  pointer-events: none;
+}
+.tick-dark { border-color: var(--color-leaf); opacity: 0.55; }
+.tick-tl { top: -2px; left: -2px; border-top-width: 2px; border-left-width: 2px; }
+.tick-tr { top: -2px; right: -2px; border-top-width: 2px; border-right-width: 2px; }
+.tick-bl { bottom: -2px; left: -2px; border-bottom-width: 2px; border-left-width: 2px; }
+.tick-br { bottom: -2px; right: -2px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* ---------- marquee ---------- */
+@keyframes mq {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: mq 30s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ---------- animaciones varias ---------- */
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(62, 207, 142, 0.55); }
+  70% { box-shadow: 0 0 0 7px rgba(62, 207, 142, 0); }
+}
+.live-dot { animation: pulse-dot 1.8s ease-out infinite; }
+
+@keyframes shake-x {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+.shake { animation: shake-x 0.4s ease; }
+
+@keyframes dash-draw {
+  to { stroke-dashoffset: 0; }
+}
+.draw-check {
+  stroke-dasharray: 52;
+  stroke-dashoffset: 52;
+  animation: dash-draw 0.55s 0.15s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes pop-ring {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pop-ring { animation: pop-ring 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+@keyframes toast-in {
+  from { transform: translateY(14px) scale(0.96); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.toast-item { animation: toast-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+.float-soft { animation: float-soft 5s ease-in-out infinite; }
+
+/* ---------- enlaces de navegación ---------- */
+.navlink {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.navlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 2px;
+  width: 100%;
+  background: var(--color-leaf);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.navlink:hover { color: var(--color-leaf); }
+.navlink:hover::after { transform: scaleX(1); }
+
+/* ---------- visor de código ---------- */
+.code-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #2c4437 transparent;
+}
+.code-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.code-scroll::-webkit-scrollbar-thumb { background: #2c4437; border-radius: 8px; }
+.code-scroll::-webkit-scrollbar-track { background: transparent; }
+
+.cl { display: flex; }
+.cl:hover { background: rgba(62, 207, 142, 0.05); }
+.ln {
+  flex: none;
+  width: 3.6ch;
+  text-align: right;
+  padding-right: 1.6ch;
+  color: #3d5a4b;
+  user-select: none;
+}
+.lc {
+  white-space: pre;
+  padding-right: 2ch;
+  color: #c8d8cc;
+}
+
+.tk-com { color: #5e7a6b; font-style: italic; }
+.tk-str { color: #e8b968; }
+.tk-kw { color: #7fd6a8; }
+.tk-fn { color: #93c4f5; }
+.tk-var { color: #f0916b; }
+.tk-num { color: #f5c66d; }
+.tk-const { color: #b7e3c8; }
+.tk-prop { color: #7fd6a8; }
+
+/* ---------- subrayado decorativo ---------- */
+.ul-brush {
+  background-image: linear-gradient(100deg, rgba(242, 163, 60, 0.9), rgba(228, 87, 46, 0.75));
+  background-repeat: no-repeat;
+  background-size: 100% 0.24em;
+  background-position: 0 88%;
+  padding: 0 0.06em;
+}
+
+/* ---------- varios ---------- */
+.step-line {
+  background: linear-gradient(to bottom, var(--color-pine) 0%, var(--color-line) 100%);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv { opacity: 1; transform: none; transition: none; }
+  .marquee-track, .live-dot, .float-soft { animation: none; }
+  .draw-check { stroke-dashoffset: 0; animation: none; }
+  .hard, .hard:hover, .hard:active { transform: none; }
+}
